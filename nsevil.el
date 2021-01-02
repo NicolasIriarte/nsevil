@@ -1,4 +1,4 @@
-;;; nsevil.el --- Nsevil (Not so evil) is a fork of emacs evil with multiples major changes and a little inspiration on Modalk -*- lexical-binding: t -*-
+;;; nsevil.el --- Nsevil (Not so evil) is a fork of emacs evil with multiples major changes and a little inspiration on Modalka -*- lexical-binding: t -*-
 
 ;; The following list of authors was kept up to date until the beginning of
 ;; 2017, when nsevil moved under new maintainers. For authors since then, please
