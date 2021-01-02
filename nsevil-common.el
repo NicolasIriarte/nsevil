@@ -438,12 +438,6 @@ If PROPERTIES is the empty list, all properties are removed."
         (setq plist (nsevil-plist-delete property plist))))
     (apply #'nsevil-set-command-properties command plist)))
 
-(defun nsevil-yank-handler (&optional motion)
-  "Return the yank handler for MOTION.
-MOTION defaults to the current motion."
-  (setq motion (or motion nsevil-this-motion))
-  (nsevil-get-command-property motion :yank-handler))
-
 (defun nsevil-declare-motion (command)
   "Declare COMMAND to be a movement function.
 This ensures that it behaves correctly in visual state."
@@ -1143,115 +1137,14 @@ the last line in the buffer is not empty."
 ;;                                   (marker-position (cdr entry))))))))
 ;; (put 'nsevil-swap-out-markers 'permanent-local-hook t)
 
-(defsubst nsevil-kbd-macro-suppress-motion-error ()
-  "Returns non-nil if a motion error should be suppressed.
-Whether the motion error should be suppressed depends on the
-variable `nsevil-kbd-macro-suppress-motion-error'."
-  (or (and defining-kbd-macro
-           (memq nsevil-kbd-macro-suppress-motion-error '(t record)))
-      (and executing-kbd-macro
-           (memq nsevil-kbd-macro-suppress-motion-error '(t replay)))))
-
-;;; Region
-
-;; `set-mark' does too much at once
-(defun nsevil-move-mark (pos)
-  "Set buffer's mark to POS.
-If POS is nil, delete the mark."
-  (when pos
-    (setq pos (nsevil-normalize-position pos)))
-  (set-marker (mark-marker) pos))
-
-;;; Interactive forms
-
-(defun nsevil-match-interactive-code (interactive &optional pos)
-  "Match an interactive code at position POS in string INTERACTIVE.
-Returns the first matching entry in `nsevil-interactive-alist', or nil."
-  (let ((length (length interactive))
-        (pos (or pos 0)))
-    (catch 'done
-      (dolist (entry nsevil-interactive-alist)
-        (let* ((string (car entry))
-               (end (+ (length string) pos)))
-          (when (and (<= end length)
-                     (string= string
-                              (substring interactive pos end)))
-            (throw 'done entry)))))))
-
-(defun nsevil-concatenate-interactive-forms (&rest forms)
-  "Concatenate interactive list expressions FORMS.
-Returns a single expression where successive expressions
-are joined, if possible."
-  (let (result)
-    (when forms
-      (while (cdr forms)
-        (cond
-         ((null (car forms))
-          (pop forms))
-         ((and (eq (car (car forms)) 'list)
-               (eq (car (cadr forms)) 'list))
-          (setq forms (cons (append (car forms)
-                                    (cdr (cadr forms)))
-                            (cdr (cdr forms)))))
-         (t
-          (push (pop forms) result))))
-      (when (car forms)
-        (push (pop forms) result))
-      (setq result (nreverse result))
-      (cond
-       ((null result))
-       ((null (cdr result))
-        (car result))
-       (t
-        `(append ,@result))))))
-
-(defun nsevil-interactive-string (string)
-  "Evaluate the interactive string STRING.
-The string may contain extended interactive syntax.
-The return value is a cons cell (FORM . PROPERTIES),
-where FORM is a single list-expression to be passed to
-a standard `interactive' statement, and PROPERTIES is a
-list of command properties as passed to `nsevil-define-command'."
-  (let ((length (length string))
-        (pos 0)
-        code expr forms match plist prompt properties)
-    (while (< pos length)
-      (if (eq (aref string pos) ?\n)
-          (setq pos (1+ pos))
-        (setq match (nsevil-match-interactive-code string pos))
-        (if (null match)
-            (user-error "Unknown interactive code: `%s'"
-                        (substring string pos))
-          (setq code (car match)
-                expr (car (cdr match))
-                plist (cdr (cdr match))
-                pos (+ pos (length code)))
-          (when (functionp expr)
-            (setq prompt
-                  (substring string pos
-                             (or (string-match "\n" string pos)
-                                 length))
-                  pos (+ pos (length prompt))
-                  expr `(funcall ,expr ,prompt)))
-          (setq forms (append forms (list expr))
-                properties (append properties plist)))))
-    (cons `(append ,@forms) properties)))
-
-(defun nsevil-interactive-form (&rest args)
-  "Evaluate interactive forms ARGS.
-The return value is a cons cell (FORM . PROPERTIES),
-where FORM is a single list-expression to be passed to
-a standard `interactive' statement, and PROPERTIES is a
-list of command properties as passed to `nsevil-define-command'."
-  (let (forms properties)
-    (dolist (arg args)
-      (if (not (stringp arg))
-          (setq forms (append forms (list arg)))
-        (setq arg (nsevil-interactive-string arg)
-              forms (append forms (cdr (car arg)))
-              properties (append properties (cdr arg)))))
-    (cons (apply #'nsevil-concatenate-interactive-forms forms)
-          properties)))
+;; (defsubst nsevil-kbd-macro-suppress-motion-error ()
+;;   "Returns non-nil if a motion error should be suppressed.
+;; Whether the motion error should be suppressed depends on the
+;; variable `nsevil-kbd-macro-suppress-motion-error'."
+;;   (or (and defining-kbd-macro
+;;            (memq nsevil-kbd-macro-suppress-motion-error '(t record)))
+;;       (and executing-kbd-macro
+;;            (memq nsevil-kbd-macro-suppress-motion-error '(t replay)))))
 
 (provide 'nsevil-common)
 

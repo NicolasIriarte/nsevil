@@ -53,11 +53,12 @@ If the region is activated, enter Visual state."
     (setq command (or command this-command))
     (when (nsevil-normal-state-p)
       (setq nsevil-this-type nil
-            nsevil-this-operator nil
-            nsevil-this-motion nil
-            nsevil-this-motion-count nil
-            nsevil-inhibit-operator nil
-            nsevil-inhibit-operator-value nil)
+            ;; nsevil-this-operator nil
+            ;; nsevil-this-motion nil
+            ;; nsevil-this-motion-count nil
+            ;; nsevil-inhibit-operator nil
+            ;; nsevil-inhibit-operator-value nil
+            )
       (unless (memq command '(nsevil-use-register
                               digit-argument
                               negative-argument
@@ -65,7 +66,8 @@ If the region is activated, enter Visual state."
                               universal-argument-minus
                               universal-argument-more
                               universal-argument-other-key))
-        (setq nsevil-this-register nil))
+        ;; (setq nsevil-this-register nil)
+        )
       ;; (nsevil-adjust-cursor)
       )))
 (put 'nsevil-normal-post-command 'permanent-local-hook t)

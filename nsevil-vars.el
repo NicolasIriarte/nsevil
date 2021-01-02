@@ -1411,8 +1411,8 @@ type.")
 ;; (nsevil-define-local-var nsevil-this-operator nil
 ;;   "Current operator.")
 
-(nsevil-define-local-var nsevil-this-motion nil
-  "Current motion.")
+;; (nsevil-define-local-var nsevil-this-motion nil
+;;   "Current motion.")
 
 ;; (nsevil-define-local-var nsevil-this-motion-count nil
 ;;   "Current motion count.")
