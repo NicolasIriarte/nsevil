@@ -72,60 +72,27 @@ If the region is activated, enter Visual state."
 
 ;;; Insert state
 
-(defun nsevil-maybe-remove-spaces (&optional do-remove)
-  "Remove space from newly opened empty line.
-This function removes (indentation) spaces that have been
-inserted by opening a new empty line. The behavior depends on the
-variable `nsevil-maybe-remove-spaces'. If this variable is nil the
-function does nothing. Otherwise the behavior depends on
-DO-REMOVE.  If DO-REMOVE is non-nil the spaces are
-removed. Otherwise `nsevil-maybe-remove-spaces' is set to nil
-unless the last command opened yet another new line.
-
-This function should be added as a post-command-hook to track
-commands opening a new line."
-  (cond
-   ((not nsevil-maybe-remove-spaces)
-    (remove-hook 'post-command-hook #'nsevil-maybe-remove-spaces))
-   (do-remove
-    (when (save-excursion
-            (beginning-of-line)
-            (looking-at "^\\s-*$"))
-      (delete-region (line-beginning-position)
-                     (line-end-position)))
-    (setq nsevil-maybe-remove-spaces nil)
-    (remove-hook 'post-command-hook #'nsevil-maybe-remove-spaces))
-   ((not (memq this-command
-               '(nsevil-open-above
-                 nsevil-open-below
-                 nsevil-append
-                 nsevil-append-line
-                 newline
-                 newline-and-indent
-                 indent-and-newline)))
-    (setq nsevil-maybe-remove-spaces nil)
-    (remove-hook 'post-command-hook #'nsevil-maybe-remove-spaces))))
-
 (nsevil-define-state insert
   "Insert state."
   :tag " <I> "
   :cursor (bar . 2)
   :message "-- INSERT --"
-  :entry-hook (nsevil-start-track-last-insertion)
-  :exit-hook (nsevil-cleanup-insert-state nsevil-stop-track-last-insertion)
+  ;; :entry-hook (nsevil-start-track-last-insertion)
+  :exit-hook (nsevil-cleanup-insert-state ;; nsevil-stop-track-last-insertion
+                                          )
   :input-method t
   (cond
    ((nsevil-insert-state-p)
-    (add-hook 'post-command-hook #'nsevil-maybe-remove-spaces)
+    ;; (add-hook 'post-command-hook #'nsevil-maybe-remove-spaces)
     ;; (add-hook 'pre-command-hook #'nsevil-insert-repeat-hook)
-    (setq nsevil-maybe-remove-spaces t)
+    ;; (setq nsevil-maybe-remove-spaces t)
     ;; (unless (eq nsevil-want-fine-undo t)
     ;;   (nsevil-start-undo-step))
     )
    (t
-    (remove-hook 'post-command-hook #'nsevil-maybe-remove-spaces)
+    ;; (remove-hook 'post-command-hook #'nsevil-maybe-remove-spaces)
     ;; (remove-hook 'pre-command-hook #'nsevil-insert-repeat-hook)
-    (nsevil-maybe-remove-spaces t)
+    ;; (nsevil-maybe-remove-spaces t)
     ;; (setq nsevil-insert-repeat-info nsevil-repeat-info)
     ;; (nsevil-set-marker ?^ nil t)
     ;; (unless (eq nsevil-want-fine-undo t)

@@ -381,14 +381,14 @@ symbol, respectively."
 ;;   :type 'boolean
 ;;   :group 'nsevil)
 
-;; (defcustom nsevil-esc-delay 0.01
-;;   "The time, in seconds, to wait for another key after escape.
-;; If no further event arrives during this time, the event is
-;; translated to `ESC'.  Otherwise, it is translated according to
-;; `input-decode-map'.  This does not apply in Emacs state, and may
-;; also be inhibited by setting `nsevil-inhibit-esc'."
-;;   :type 'number
-;;   :group 'nsevil)
+(defcustom nsevil-esc-delay 0.01
+  "The time, in seconds, to wait for another key after escape.
+If no further event arrives during this time, the event is
+translated to `ESC'.  Otherwise, it is translated according to
+`input-decode-map'.  This does not apply in Emacs state, and may
+also be inhibited by setting `nsevil-inhibit-esc'."
+  :type 'number
+  :group 'nsevil)
 
 (defvar nsevil-esc-mode nil
   "Non-nil if `nsevil-esc-mode' is enabled.")
@@ -397,8 +397,8 @@ symbol, respectively."
 ;;   "Original ESC prefix map in `input-decode-map'.
 ;; Used by `nsevil-esc-mode'.")
 
-;; (defvar nsevil-inhibit-esc nil
-;;   "If non-nil, the \\e event will never be translated to 'escape.")
+(defvar nsevil-inhibit-esc nil
+  "If non-nil, the \\e event will never be translated to 'escape.")
 
 (defcustom nsevil-intercept-esc 'always
   "Whether Nsevil should intercept the escape key.
@@ -1551,9 +1551,9 @@ character argument for some commands, e.g. `nsevil-replace'.")
 ;; (nsevil-define-local-var nsevil-insert-repeat-info nil
 ;;   "Repeat information accumulated during an insertion.")
 
-;; (nsevil-define-local-var nsevil-replace-alist nil
-;;   "Association list of characters overwritten in Replace state.
-;; The format is (POS . CHAR).")
+(nsevil-define-local-var nsevil-replace-alist nil
+  "Association list of characters overwritten in Replace state.
+The format is (POS . CHAR).")
 
 (nsevil-define-local-var nsevil-echo-area-message nil
   "Previous value of `current-message'.")
