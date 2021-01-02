@@ -66,7 +66,8 @@ If the region is activated, enter Visual state."
                               universal-argument-more
                               universal-argument-other-key))
         (setq nsevil-this-register nil))
-      (nsevil-adjust-cursor))))
+      ;; (nsevil-adjust-cursor)
+      )))
 (put 'nsevil-normal-post-command 'permanent-local-hook t)
 
 ;;; Insert state
@@ -186,7 +187,8 @@ Handles the repeat-count of the insertion command."
     (remove-hook 'pre-command-hook #'nsevil-replace-pre-command t)
     ;; (unless (eq nsevil-want-fine-undo t)
     ;;   (nsevil-end-undo-step))
-    (nsevil-move-cursor-back)))
+    ;; (nsevil-move-cursor-back)
+    ))
   (setq nsevil-replace-alist nil))
 
 (defun nsevil-replace-pre-command ()

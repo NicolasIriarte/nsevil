@@ -1,31 +1,31 @@
-;; ;;; nsevil-vars.el --- Settings and variables -*- lexical-binding: t -*-
+;;; nsevil-vars.el --- Settings and variables -*- lexical-binding: t -*-
 
-;; ;; Author: Vegard Øye <vegard_oye at hotmail.com>
-;; ;; Maintainer: Vegard Øye <vegard_oye at hotmail.com>
+;; Author: Vegard Øye <vegard_oye at hotmail.com>
+;; Maintainer: Vegard Øye <vegard_oye at hotmail.com>
 
-;; ;; Version: 1.14.0
+;; Version: 1.14.0
 
-;; ;;
-;; ;; This file is NOT part of GNU Emacs.
+;;
+;; This file is NOT part of GNU Emacs.
 
-;; ;;; License:
+;;; License:
 
-;; ;; This file is part of Nsevil.
-;; ;;
-;; ;; Nsevil is free software: you can redistribute it and/or modify
-;; ;; it under the terms of the GNU General Public License as published by
-;; ;; the Free Software Foundation, either version 3 of the License, or
-;; ;; (at your option) any later version.
-;; ;;
-;; ;; Nsevil is distributed in the hope that it will be useful,
-;; ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; ;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; ;; GNU General Public License for more details.
-;; ;;
-;; ;; You should have received a copy of the GNU General Public License
-;; ;; along with Nsevil.  If not, see <http://www.gnu.org/licenses/>.
+;; This file is part of Nsevil.
+;;
+;; Nsevil is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+;;
+;; Nsevil is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with Nsevil.  If not, see <http://www.gnu.org/licenses/>.
 
-;; ;;; Code:
+;;; Code:
 
 ;; (declare-function nsevil-add-command-properties "nsevil-common"
 ;;                   (command &rest properties))
@@ -1315,8 +1315,8 @@ To change the state, use `nsevil-change-state'
 or call the state function (e.g., `nsevil-normal-state').")
 
 ;; ;; these may be used inside `nsevil-define-state'
-;; (nsevil-define-local-var nsevil-next-state nil
-;;   "The Nsevil state being switched to.")
+(nsevil-define-local-var nsevil-next-state nil
+  "The Nsevil state being switched to.")
 
 (nsevil-define-local-var nsevil-previous-state-alist nil
   "For Each nsevil state the Nsevil state being switched from.")
@@ -1394,13 +1394,13 @@ Use the macro `nsevil-without-display' to set this variable.")
 ;; (nsevil-define-local-var nsevil-motion-marker nil
 ;;   "Marker for storing the starting position of a motion.")
 
-;; (nsevil-define-local-var nsevil-this-type nil
-;;   "Current motion type.")
+(nsevil-define-local-var nsevil-this-type nil
+  "Current motion type.")
 
-;; (nsevil-define-local-var nsevil-this-type-modified nil
-;;   "Non-nil iff current motion type has been modified by the user.
-;; If the type has been modified, this variable contains the new
-;; type.")
+(nsevil-define-local-var nsevil-this-type-modified nil
+  "Non-nil iff current motion type has been modified by the user.
+If the type has been modified, this variable contains the new
+type.")
 
 ;; (nsevil-define-local-var nsevil-this-register nil
 ;;   "Current register.")
@@ -1411,8 +1411,8 @@ Use the macro `nsevil-without-display' to set this variable.")
 ;; (nsevil-define-local-var nsevil-this-operator nil
 ;;   "Current operator.")
 
-;; (nsevil-define-local-var nsevil-this-motion nil
-;;   "Current motion.")
+(nsevil-define-local-var nsevil-this-motion nil
+  "Current motion.")
 
 ;; (nsevil-define-local-var nsevil-this-motion-count nil
 ;;   "Current motion count.")
@@ -1442,10 +1442,10 @@ Use the macro `nsevil-without-display' to set this variable.")
 ;; (defvar nsevil-operator-range-motion nil
 ;;   "Motion of `nsevil-operator-range'.")
 
-;; (defvar nsevil-restriction-stack nil
-;;   "List of previous restrictions.
-;; Using `nsevil-with-restriction' stores the previous values of
-;; `point-min' and `point-max' as a pair in this list.")
+(defvar nsevil-restriction-stack nil
+  "List of previous restrictions.
+Using `nsevil-with-restriction' stores the previous values of
+`point-min' and `point-max' as a pair in this list.")
 
 ;; (nsevil-define-local-var nsevil-markers-alist
 ;;   '((?\( . nsevil-backward-sentence)
@@ -1472,11 +1472,11 @@ Use the macro `nsevil-without-display' to set this variable.")
   "Full keymap disabling default bindings to `self-insert-command'.")
 (suppress-keymap nsevil-suppress-map t)
 
-;; (defvar nsevil-read-key-map (make-sparse-keymap)
-;;   "Keymap active during `nsevil-read-key'.
-;; This keymap can be used to bind some commands during the
-;; execution of `nsevil-read-key' which is usually used to read a
-;; character argument for some commands, e.g. `nsevil-replace'.")
+(defvar nsevil-read-key-map (make-sparse-keymap)
+  "Keymap active during `nsevil-read-key'.
+This keymap can be used to bind some commands during the
+execution of `nsevil-read-key' which is usually used to read a
+character argument for some commands, e.g. `nsevil-replace'.")
 
 ;; ;; TODO: customize size of ring
 ;; (defvar nsevil-repeat-ring (make-ring 10)
@@ -1555,12 +1555,12 @@ Use the macro `nsevil-without-display' to set this variable.")
 ;;   "Association list of characters overwritten in Replace state.
 ;; The format is (POS . CHAR).")
 
-;; (nsevil-define-local-var nsevil-echo-area-message nil
-;;   "Previous value of `current-message'.")
+(nsevil-define-local-var nsevil-echo-area-message nil
+  "Previous value of `current-message'.")
 
-;; (defvar nsevil-write-echo-area nil
-;;   "If set to t inside `nsevil-save-echo-area', then the echo area
-;; is not restored.")
+(defvar nsevil-write-echo-area nil
+  "If set to t inside `nsevil-save-echo-area', then the echo area
+is not restored.")
 
 ;; (defvar nsevil-last-find nil
 ;;   "A pair (FUNCTION . CHAR) describing the lastest character

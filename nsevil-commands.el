@@ -25,6 +25,8 @@
 ;; along with Nsevil.  If not, see <http://www.gnu.org/licenses/>.
 
 (require 'nsevil-common)
+;; NEW
+(require 'nsevil-states)
 ;; (require 'nsevil-digraphs)
 ;; (require 'nsevil-search)
 ;; (require 'nsevil-ex)
