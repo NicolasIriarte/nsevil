@@ -1394,13 +1394,13 @@ Use the macro `nsevil-without-display' to set this variable.")
 ;; (nsevil-define-local-var nsevil-motion-marker nil
 ;;   "Marker for storing the starting position of a motion.")
 
-(nsevil-define-local-var nsevil-this-type nil
-  "Current motion type.")
+;; (nsevil-define-local-var nsevil-this-type nil
+;;   "Current motion type.")
 
-(nsevil-define-local-var nsevil-this-type-modified nil
-  "Non-nil iff current motion type has been modified by the user.
-If the type has been modified, this variable contains the new
-type.")
+;; (nsevil-define-local-var nsevil-this-type-modified nil
+;;   "Non-nil iff current motion type has been modified by the user.
+;; If the type has been modified, this variable contains the new
+;; type.")
 
 ;; (nsevil-define-local-var nsevil-this-register nil
 ;;   "Current register.")

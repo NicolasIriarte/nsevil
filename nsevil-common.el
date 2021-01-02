@@ -349,15 +349,6 @@ sorting in between."
             arg (pop body))
       (unless nil ; TODO: add keyword check
         (setq keys (plist-put keys key arg))))
-    ;; collect `interactive' form
-    (when (and body (consp (car body))
-               (eq (car (car body)) 'interactive))
-      (let* ((iform (pop body))
-             (result (apply #'nsevil-interactive-form (cdr iform)))
-             (form (car result))
-             (attrs (cdr result)))
-        (setq interactive `(interactive ,form)
-              keys (nsevil-concat-plists keys attrs))))
     `(progn
        ;; the compiler does not recognize `defun' inside `let'
        ,(when (and command body)
@@ -608,72 +599,6 @@ This command can be used wherever `read-quoted-char' is required
 as a command. Its main use is in the `nsevil-read-key-map'."
   (interactive)
   (read-quoted-char))
-
-(defun nsevil-read-digraph-char (&optional hide-chars)
-  "Read two keys from keyboard forming a digraph.
-This function creates an overlay at (point), hiding the next
-HIDE-CHARS characters. HIDE-CHARS defaults to 1."
-  (interactive)
-  (let (char1 char2 string overlay)
-    (unwind-protect
-        (progn
-          (setq overlay (make-overlay (point)
-                                      (min (point-max)
-                                           (+ (or hide-chars 1)
-                                              (point)))))
-          (overlay-put overlay 'invisible t)
-          ;; create overlay prompt
-          (setq string "?")
-          (put-text-property 0 1 'face 'minibuffer-prompt string)
-          ;; put cursor at (i.e., right before) the prompt
-          (put-text-property 0 1 'cursor t string)
-          (overlay-put overlay 'after-string string)
-          (setq char1 (read-key))
-          (setq string (string char1))
-          (put-text-property 0 1 'face 'minibuffer-prompt string)
-          (put-text-property 0 1 'cursor t string)
-          (overlay-put overlay 'after-string string)
-          (setq char2 (read-key)))
-      (delete-overlay overlay))
-    (or (nsevil-digraph (list char1 char2))
-        ;; use the last character if undefined
-        char2)))
-
-(defun nsevil-read-motion (&optional motion count type modifier)
-  "Read a MOTION, motion COUNT and motion TYPE from the keyboard.
-The type may be overridden with MODIFIER, which may be a type
-or a Visual selection as defined by `nsevil-define-visual-selection'.
-Return a list (MOTION COUNT [TYPE])."
-  (let (command prefix)
-    (setq nsevil-this-type-modified nil)
-    (unless motion
-      (while (progn
-               (setq command (nsevil-keypress-parser)
-                     motion (pop command)
-                     prefix (pop command))
-               (when prefix
-                 (if count
-                     (setq count (string-to-number
-                                  (concat (number-to-string count)
-                                          (number-to-string prefix))))
-                   (setq count prefix)))
-               ;; if the command is a type modifier, read more
-               (when (rassq motion nsevil-visual-alist)
-                 (setq modifier
-                       (or modifier
-                           (car (rassq motion nsevil-visual-alist))))))))
-    (when modifier
-      (setq type (or type (nsevil-type motion 'exclusive)))
-      (cond
-       ((eq modifier 'char)
-        ;; TODO: this behavior could be less hard-coded
-        (if (eq type 'exclusive)
-            (setq type 'inclusive)
-          (setq type 'exclusive)))
-       (t
-        (setq type modifier)))
-      (setq nsevil-this-type-modified type))
-    (list motion count type)))
 
 (defun nsevil-mouse-events-p (keys)
   "Returns non-nil iff KEYS contains a mouse event."
