@@ -36,11 +36,11 @@ As fork of Evil the keys definitions are practical the same:
 * Want to contribute?
 I'm not a relly elisp programmer, so any help is appreciated. From bug report to pull request. Don't know how to ccontribute? Here is a list of things that I want to do/implement:
 - [ ] Review all code: Maybe I forgot some Evil code that is never used or I deleted some useful code.
-- [ ] Delete ALL the keys from command mode. I want to be a totally clean map and the user define what it want.
+- [X] Delete ALL the keys from command mode. I want to be a totally clean map and the user define what it want.
 - [ ] As I'm not so familiar with Evil yet I don't know if there is a 'shared' keymap. Usefull for commands that we want on insert and normal state.
 - [ ] Make a better README. As non-english native speaker this readme isn't good at all. I want to expand it and add more code and examples
 
 * Contributors and license
  As fork of Evil the majority of the code isn't mine on this stage. See [[https://github.com/NicolasIriarte/nsevil/blob/master/nsevil.el][this]] file for a list of the original contributors.
 
-Nsevil (Not So Evil) as Evil respect the GPL-3.0 License.
+ Nsevil (Not So Evil) as Evil respect the GPL-3.0 License.
