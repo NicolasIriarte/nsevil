@@ -52,6 +52,7 @@ If the region is activated, enter Visual state."
               (null this-command))
     (setq command (or command this-command))
     ))
+
 (put 'nsevil-normal-post-command 'permanent-local-hook t)
 
 ;;; Insert state
